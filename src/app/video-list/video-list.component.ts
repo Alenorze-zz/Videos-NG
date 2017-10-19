@@ -1,40 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { VideoItem } from './../videos/video';
+import { VideoService } from '../videos/video.service';
+import { Component, OnInit, OnDestroy} from '@angular/core';
 
 
 @Component({
   selector: 'app-video-list',
   templateUrl: './video-list.component.html',
-  styleUrls: ['./video-list.component.css']
+  styleUrls: ['./video-list.component.css'],
+  providers: [VideoService]
 })
-export class VideoListComponent implements OnInit {
+export class VideoListComponent implements OnInit, OnDestroy {
+    private req: any;
     title = 'Video List';
-    someItem = '<h1>Hi there</h1>';
-    todayDate;
-    videoList = [
-        {
-         name: 'Item 1',
-         slug: 'item-1',
-         embed: `Fhd_iKI9UX0`,
-        },
-        {
-         name: 'Item 2',
-         slug: 'item-2',
-         embed: `tK7uXkZ-EFM`,
-        },
-        {
-         name: 'Item 3',
-         slug: 'item-3',
-         embed: 'XALLZHKnS_U',
-        }
-    ];
-  constructor() {}
+    videoList: [VideoItem];
+  constructor(private _video: VideoService) {}
 
   ngOnInit() {
-    this.todayDate = new Date();
+    this.req = this._video.list().subscribe(data => {
+      this.videoList = data as [VideoItem];
+    });
   }
 
   getEmbedUrl(item) {
     return 'https://www.youtube.com/embed/' + item.embed + '?ecver=2';
   }
 
+  ngOnDestroy() {
+      this.req.unsubscribe();
+  }
 }
