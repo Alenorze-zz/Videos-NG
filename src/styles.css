@@ -5,10 +5,25 @@
 }
 
 .img-size{
-  width: 1200px;
+  max-height: 800px;
+  margin:0 auto;
 }
 
 .sein .navbar-left{
   float: none!important
 }
 
+
+/* You can add global styles to this file, and also import other style files */
+
+.carousel-control.right, .carousel-control.left {
+  cursor: pointer;
+}
+
+.search-inline .navbar-left, .search-inline .navbar-right {
+  float: none !important;
+}
+
+.img-center {
+  margin: 0 auto;
+}
